@@ -32,23 +32,18 @@ export class ApiService {
   selectInputData(input) {
     switch (input) {
       case 'nameaz':
-        console.log('nameaz');
         this.sortSource.next('login');
         break;
       case 'nameza':
-        console.log('nameza');
         this.sortSource.next('login : false');
         break;
       case 'rankup':
-        console.log('rankup');
         this.sortSource.next('id');
         break;
       case 'rankdown':
-        console.log('rankdown');
         this.sortSource.next('id : false');
         break;
       default:
-        console.log('default');
         this.sortSource.next('login');
     }
   }

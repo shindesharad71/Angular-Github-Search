@@ -53,6 +53,8 @@ var ApiService = /** @class */ (function () {
         this.http = http;
         this.messageSource = new rxjs__WEBPACK_IMPORTED_MODULE_2__["BehaviorSubject"]('default message');
         this.currentMessage = this.messageSource.asObservable();
+        this.sortSource = new rxjs__WEBPACK_IMPORTED_MODULE_2__["BehaviorSubject"]('login');
+        this.sortMessage = this.sortSource.asObservable();
     }
     ApiService.prototype.searchUsers = function (term) {
         var _this = this;
@@ -61,6 +63,24 @@ var ApiService = /** @class */ (function () {
                 _this.users = data;
                 _this.messageSource.next(_this.users);
             });
+        }
+    };
+    ApiService.prototype.selectInputData = function (input) {
+        switch (input) {
+            case 'nameaz':
+                this.sortSource.next('login');
+                break;
+            case 'nameza':
+                this.sortSource.next('login : false');
+                break;
+            case 'rankup':
+                this.sortSource.next('id');
+                break;
+            case 'rankdown':
+                this.sortSource.next('id : false');
+                break;
+            default:
+                this.sortSource.next('login');
         }
     };
     ApiService.prototype.usersList = function () {
@@ -152,9 +172,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
 /* harmony import */ var _angular_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/http */ "./node_modules/@angular/http/fesm5/http.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
-/* harmony import */ var _wrapper_wrapper_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./wrapper/wrapper.component */ "./src/app/wrapper/wrapper.component.ts");
-/* harmony import */ var _list_list_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./list/list.component */ "./src/app/list/list.component.ts");
+/* harmony import */ var ngx_order_pipe__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ngx-order-pipe */ "./node_modules/ngx-order-pipe/ngx-order-pipe.es5.js");
+/* harmony import */ var ngx_pagination__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ngx-pagination */ "./node_modules/ngx-pagination/dist/ngx-pagination.js");
+/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
+/* harmony import */ var _wrapper_wrapper_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./wrapper/wrapper.component */ "./src/app/wrapper/wrapper.component.ts");
+/* harmony import */ var _list_list_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./list/list.component */ "./src/app/list/list.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -169,24 +191,28 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
+
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
     AppModule = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
             declarations: [
-                _app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"],
-                _wrapper_wrapper_component__WEBPACK_IMPORTED_MODULE_6__["WrapperComponent"],
-                _list_list_component__WEBPACK_IMPORTED_MODULE_7__["ListComponent"]
+                _app_component__WEBPACK_IMPORTED_MODULE_7__["AppComponent"],
+                _wrapper_wrapper_component__WEBPACK_IMPORTED_MODULE_8__["WrapperComponent"],
+                _list_list_component__WEBPACK_IMPORTED_MODULE_9__["ListComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
                 _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormsModule"],
                 _angular_http__WEBPACK_IMPORTED_MODULE_3__["HttpModule"],
-                _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClientModule"]
+                _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClientModule"],
+                ngx_order_pipe__WEBPACK_IMPORTED_MODULE_5__["OrderModule"],
+                ngx_pagination__WEBPACK_IMPORTED_MODULE_6__["NgxPaginationModule"]
             ],
             providers: [],
-            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"]]
+            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_7__["AppComponent"]]
         })
     ], AppModule);
     return AppModule;
@@ -214,7 +240,7 @@ module.exports = ".card {\n  /* Add shadows to create the \"card\" effect */\n  
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container topspace\" *ngIf=\"users\">\n  <p class=\"text-center\">Total Count - {{users.total_count}}</p>\n  <div class=\"col-md-offset-1 col-md-10 bottom-margin\" *ngFor=\"let user of users.items\">\n    <div class=\"row card\">\n      <div class=\"col-md-3\">\n        <img [src]=\"user.avatar_url\" class=\"img-responsive img-circle\" width=\"150\" height=\"150\">\n      </div>\n      <div class=\"col-md-9\">\n        <h1>{{user.login}}</h1>\n        <h4><strong>Project URL</strong> - {{user.html_url}}</h4>\n        <div class=\"row\">\n          <div class=\"col-md-6\">\n            <p><strong>ID</strong> - {{user.id}}</p>\n            <p><strong>Score</strong> - {{user.score}}</p>\n          </div>\n          <div class=\"col-md-6\">\n            <button data-toggle=\"collapse\" [attr.data-target]=\"'#'+user.login\" class=\"btn outline-btn\" (click)=\"userDetails(user.login)\">Details</button>\n          </div>\n        </div>\n      </div>\n      <div [attr.id]=\"user.login\" *ngIf=\"repos && show == user.login\" style=\"margin-top: 20px;\">\n          <i class=\"fa fa-spinner\" aria-hidden=\"true\" *ngIf=\"loading\"></i>\n        <ul>\n              <li class=\"repolist\" *ngFor=\"let repo of repos\">\n                  <h4><strong>{{repo.name}}</strong> => {{repo.language}}</h4>\n              </li>\n            </ul>\n        </div>\n    </div>\n  </div>\n</div>\n<div class=\"container topspace\" *ngIf=\"!users\">\n  <h1 class=\"text-center\">Hi! Start Typing To Search</h1>\n</div>\n\n<footer>\n  <p class=\"text-center\">By Sharad Shinde 2018</p>\n</footer>\n"
+module.exports = "<div class=\"container topspace\" *ngIf=\"users\">\n  <p class=\"text-center\">Total Count - {{users.total_count}}</p>\n  <div class=\"col-md-offset-1 col-md-10 bottom-margin\" *ngFor=\"let user of users.items | orderBy: query | paginate: { itemsPerPage: 10, currentPage: p }\">\n    <div class=\"row card\">\n      <div class=\"col-md-3\">\n        <img [src]=\"user.avatar_url\" class=\"img-responsive img-circle\" width=\"150\" height=\"150\">\n      </div>\n      <div class=\"col-md-9\">\n        <h1>{{user.login}}</h1>\n        <h4><strong>Project URL</strong> - {{user.html_url}}</h4>\n        <div class=\"row\">\n          <div class=\"col-md-6\">\n            <p><strong>ID</strong> - {{user.id}}</p>\n            <p><strong>Score</strong> - {{user.score}}</p>\n          </div>\n          <div class=\"col-md-6\">\n            <button data-toggle=\"collapse\" [attr.data-target]=\"'#'+user.login\" class=\"btn outline-btn\" (click)=\"userDetails(user.login)\">Details</button>\n          </div>\n        </div>\n      </div>\n      <div [attr.id]=\"user.login\" *ngIf=\"repos && show == user.login\" style=\"margin-top: 20px;\">\n          <i class=\"fa fa-spinner\" aria-hidden=\"true\" *ngIf=\"loading\"></i>\n        <ul>\n              <li class=\"repolist\" *ngFor=\"let repo of repos\">\n                  <h4><strong>{{repo.name}}</strong> => {{repo.language}}</h4>\n              </li>\n            </ul>\n        </div>\n    </div>\n  </div>\n</div>\n<pagination-controls class=\"text-center\" (pageChange)=\"p = $event\" *ngIf=\"users\"></pagination-controls>\n\n<div class=\"container topspace\" *ngIf=\"!users\">\n  <h1 class=\"text-center\">Hi! Start Typing To Search</h1>\n</div>\n\n<footer>\n  <p class=\"text-center\">By Sharad Shinde 2018</p>\n</footer>\n"
 
 /***/ }),
 
@@ -249,7 +275,11 @@ var ListComponent = /** @class */ (function () {
         this.api = api;
         this.http = http;
         this.loading = false;
+        this.query = '';
+        this.p = 1;
+        this.collection = this.users;
         this.api.currentMessage.subscribe(function (message) { return _this.users = message; });
+        this.api.sortMessage.subscribe(function (message) { return _this.query = message; });
     }
     ListComponent.prototype.ngOnInit = function () {
         this.users = this.api.users;
@@ -257,6 +287,9 @@ var ListComponent = /** @class */ (function () {
     ListComponent.prototype.getUserdata = function () {
         this.users = this.api.users;
         return this.users;
+    };
+    ListComponent.prototype.sortData = function () {
+        this.users.items.sort();
     };
     ListComponent.prototype.userDetails = function (username) {
         var _this = this;
@@ -304,7 +337,7 @@ module.exports = ".blue {\n  background-color: skyblue;\n  padding: 20px;\n}\n\n
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid\">\n  <div class=\"row blue\">\n      <div class=\"col-md-6 text-right\">\n          <form class=\"navbar-form\">\n            <div class=\"input-group\">\n              <select class=\"form-control input-lg\">\n                <option>Sort By Name (A-Z)</option>\n                <option>Sort By Name (Z-A)</option>\n              </select>\n            </div>\n          </form>\n        </div>\n    <div class=\"col-md-6\">\n      <form class=\"navbar-form\">\n        <div class=\"input-group\">\n          <input type=\"text\" class=\"form-control input-lg\" autofocus autocomplete=\"off\" autocomplete=\"false\" name=\"term\" (input)=\"search($event.target.value)\" placeholder=\"Search\">\n          <div class=\"input-group-btn\">\n            <a class=\"btn btn-default btn-lg transperent-btn\">\n              <i class=\"glyphicon glyphicon-search\"></i>\n            </a>\n          </div>\n        </div>\n      </form>\n    </div>\n  </div>\n</div>\n"
+module.exports = "<div class=\"container-fluid\">\n  <div class=\"row blue\">\n      <div class=\"col-md-6 text-right\">\n          <form class=\"navbar-form\">\n            <div class=\"input-group\">\n              <select class=\"form-control input-lg\" name=\"sortVal\" (input)=\"selectBox($event.target.value)\">\n                <option value=\"nameaz\">Sort By Name (A-Z)</option>\n                <option value=\"nameza\">Sort By Name (Z-A)</option>\n                <option value=\"rankup\">Rank Up</option>\n                <option value=\"rankdown\">Rank Down</option>\n              </select>\n            </div>\n          </form>\n        </div>\n    <div class=\"col-md-6\">\n      <form class=\"navbar-form\">\n        <div class=\"input-group\">\n          <input type=\"text\" class=\"form-control input-lg\" autofocus autocomplete=\"off\" autocomplete=\"false\" name=\"term\" (input)=\"search($event.target.value)\" placeholder=\"Search\">\n          <div class=\"input-group-btn\">\n            <a class=\"btn btn-default btn-lg transperent-btn\">\n              <i class=\"glyphicon glyphicon-search\"></i>\n            </a>\n          </div>\n        </div>\n      </form>\n    </div>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -334,10 +367,14 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 var WrapperComponent = /** @class */ (function () {
     function WrapperComponent(api) {
         this.api = api;
+        this.sortEx = '';
     }
     WrapperComponent.prototype.ngOnInit = function () { };
     WrapperComponent.prototype.search = function (term) {
         this.api.searchUsers(term);
+    };
+    WrapperComponent.prototype.selectBox = function (sortVal) {
+        this.api.selectInputData(sortVal);
     };
     WrapperComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
