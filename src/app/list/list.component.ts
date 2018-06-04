@@ -12,6 +12,7 @@ export class ListComponent implements OnInit {
   users: any;
   repos: any;
   show: string;
+  loading = false;
 
   constructor(private api: ApiService, private http: HttpClient) {
     this.api.currentMessage.subscribe(message => this.users = message);
@@ -28,12 +29,14 @@ export class ListComponent implements OnInit {
 
   userDetails(username) {
     if (username) {
+      this.loading = true;
       this.show = username;
       this.repos = '';
       const url: any = `https://api.github.com/users/${username}/repos`;
       this.http.get(url).subscribe(data => {
         this.repos = data;
       });
+      this.loading = false;
     }
   }
 

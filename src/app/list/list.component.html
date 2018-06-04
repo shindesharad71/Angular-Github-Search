@@ -18,8 +18,9 @@
           </div>
         </div>
       </div>
-      <div [attr.id]="user.login" *ngIf="repos && show == user.login">
-            <ul>
+      <div [attr.id]="user.login" *ngIf="repos && show == user.login" style="margin-top: 20px;">
+          <i class="fa fa-spinner" aria-hidden="true" *ngIf="loading"></i>
+        <ul>
               <li class="repolist" *ngFor="let repo of repos">
                   <h4><strong>{{repo.name}}</strong> => {{repo.language}}</h4>
               </li>

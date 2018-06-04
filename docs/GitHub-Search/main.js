@@ -203,7 +203,7 @@ var AppModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".card {\n  /* Add shadows to create the \"card\" effect */\n  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);\n  transition: 0.3s;\n  padding: 10px;\n  background-color: #fff;\n}\n\n/* On mouse-over, add a deeper shadow */\n\n.card:hover {\n  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);\n}\n\n.topspace {\n  padding-top: 50px;\n}\n\n.outline-btn {\n  background-color: transparent !important;\n  border-color: skyblue !important;\n  border-radius: 5px !important;\n  outline-color: skyblue !important;\n}\n\n.bottom-margin {\n  margin-bottom: 15px;\n}\n\n.repolist {\n  list-style: none;\n  border-bottom: 1px solid #ccc;\n  border-top: 1px solid #ccc;\n  padding: 10px;\n}\n"
+module.exports = ".card {\n  /* Add shadows to create the \"card\" effect */\n  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);\n  transition: 0.3s;\n  padding: 10px;\n  background-color: #fff;\n}\n\n/* On mouse-over, add a deeper shadow */\n\n.card:hover {\n  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);\n}\n\n.topspace {\n  padding-top: 50px;\n}\n\n.outline-btn {\n  background-color: transparent !important;\n  border-color: skyblue !important;\n  border-radius: 5px !important;\n  outline-color: skyblue !important;\n}\n\n.bottom-margin {\n  margin-bottom: 15px;\n}\n\n.repolist {\n  list-style: none;\n  padding: 10px;\n}\n"
 
 /***/ }),
 
@@ -214,7 +214,7 @@ module.exports = ".card {\n  /* Add shadows to create the \"card\" effect */\n  
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container topspace\" *ngIf=\"users\">\n  <p class=\"text-center\">Total Count - {{users.total_count}}</p>\n  <div class=\"col-md-offset-1 col-md-10 bottom-margin\" *ngFor=\"let user of users.items\">\n    <div class=\"row card\">\n      <div class=\"col-md-3\">\n        <img [src]=\"user.avatar_url\" class=\"img-responsive img-circle\" width=\"150\" height=\"150\">\n      </div>\n      <div class=\"col-md-9\">\n        <h1>{{user.login}}</h1>\n        <h4><strong>Project URL</strong> - {{user.html_url}}</h4>\n        <div class=\"row\">\n          <div class=\"col-md-6\">\n            <p><strong>ID</strong> - {{user.id}}</p>\n            <p><strong>Score</strong> - {{user.score}}</p>\n          </div>\n          <div class=\"col-md-6\">\n            <button data-toggle=\"collapse\" [attr.data-target]=\"'#'+user.login\" class=\"btn outline-btn\" (click)=\"userDetails(user.login)\">Details</button>\n          </div>\n        </div>\n      </div>\n      <div [attr.id]=\"user.login\" *ngIf=\"repos\">\n            <ul>\n              <li class=\"repolist\" *ngFor=\"let repo of repos\">\n                <div>\n                  <h4><strong>{{repo.name}}</strong> => {{repo.language}}</h4>\n                </div>\n              </li>\n            </ul>\n        </div>\n    </div>\n  </div>\n</div>\n"
+module.exports = "<div class=\"container topspace\" *ngIf=\"users\">\n  <p class=\"text-center\">Total Count - {{users.total_count}}</p>\n  <div class=\"col-md-offset-1 col-md-10 bottom-margin\" *ngFor=\"let user of users.items\">\n    <div class=\"row card\">\n      <div class=\"col-md-3\">\n        <img [src]=\"user.avatar_url\" class=\"img-responsive img-circle\" width=\"150\" height=\"150\">\n      </div>\n      <div class=\"col-md-9\">\n        <h1>{{user.login}}</h1>\n        <h4><strong>Project URL</strong> - {{user.html_url}}</h4>\n        <div class=\"row\">\n          <div class=\"col-md-6\">\n            <p><strong>ID</strong> - {{user.id}}</p>\n            <p><strong>Score</strong> - {{user.score}}</p>\n          </div>\n          <div class=\"col-md-6\">\n            <button data-toggle=\"collapse\" [attr.data-target]=\"'#'+user.login\" class=\"btn outline-btn\" (click)=\"userDetails(user.login)\">Details</button>\n          </div>\n        </div>\n      </div>\n      <div [attr.id]=\"user.login\" *ngIf=\"repos && show == user.login\" style=\"margin-top: 20px;\">\n          <i class=\"fa fa-spinner\" aria-hidden=\"true\" *ngIf=\"loading\"></i>\n        <ul>\n              <li class=\"repolist\" *ngFor=\"let repo of repos\">\n                  <h4><strong>{{repo.name}}</strong> => {{repo.language}}</h4>\n              </li>\n            </ul>\n        </div>\n    </div>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -248,6 +248,7 @@ var ListComponent = /** @class */ (function () {
         var _this = this;
         this.api = api;
         this.http = http;
+        this.loading = false;
         this.api.currentMessage.subscribe(function (message) { return _this.users = message; });
     }
     ListComponent.prototype.ngOnInit = function () {
@@ -260,11 +261,14 @@ var ListComponent = /** @class */ (function () {
     ListComponent.prototype.userDetails = function (username) {
         var _this = this;
         if (username) {
+            this.loading = true;
+            this.show = username;
             this.repos = '';
             var url = "https://api.github.com/users/" + username + "/repos";
             this.http.get(url).subscribe(function (data) {
                 _this.repos = data;
             });
+            this.loading = false;
         }
     };
     ListComponent = __decorate([
