@@ -3,9 +3,11 @@
       <div class="col-md-6 text-right">
           <form class="navbar-form">
             <div class="input-group">
-              <select class="form-control input-lg">
-                <option>Sort By Name (A-Z)</option>
-                <option>Sort By Name (Z-A)</option>
+              <select class="form-control input-lg" name="sortVal" (input)="selectBox($event.target.value)">
+                <option value="nameaz">Sort By Name (A-Z)</option>
+                <option value="nameza">Sort By Name (Z-A)</option>
+                <option value="rankup">Rank Up</option>
+                <option value="rankdown">Rank Down</option>
               </select>
             </div>
           </form>

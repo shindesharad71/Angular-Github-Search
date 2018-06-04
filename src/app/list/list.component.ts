@@ -13,9 +13,11 @@ export class ListComponent implements OnInit {
   repos: any;
   show: string;
   loading = false;
+  query = '';
 
   constructor(private api: ApiService, private http: HttpClient) {
     this.api.currentMessage.subscribe(message => this.users = message);
+    this.api.sortMessage.subscribe(message => this.query = message);
   }
 
   ngOnInit() {
@@ -25,6 +27,10 @@ export class ListComponent implements OnInit {
   getUserdata() {
     this.users = this.api.users;
     return this.users;
+  }
+
+  sortData() {
+    this.users.items.sort();
   }
 
   userDetails(username) {

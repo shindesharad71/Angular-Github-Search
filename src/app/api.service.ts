@@ -9,9 +9,13 @@ import { BehaviorSubject } from 'rxjs';
 export class ApiService {
 
   users: any;
+  selectInput: any;
 
   private messageSource = new BehaviorSubject('default message');
   currentMessage = this.messageSource.asObservable();
+
+  private sortSource = new BehaviorSubject('login');
+  sortMessage = this.sortSource.asObservable();
 
   constructor(private http: HttpClient) { }
 
@@ -21,6 +25,30 @@ export class ApiService {
         this.users = data;
         this.messageSource.next(this.users);
       });
+    }
+  }
+
+  selectInputData(input) {
+    switch (input) {
+      case 'nameaz':
+        console.log('nameaz');
+        this.sortSource.next('login : true');
+        break;
+      case 'nameza':
+        console.log('nameza');
+        this.sortSource.next('login : false');
+        break;
+      case 'rankup':
+        console.log('rankup');
+        this.sortSource.next('score : true');
+        break;
+      case 'rankdown':
+        console.log('rankdown');
+        this.sortSource.next('score : false');
+        break;
+      default:
+        console.log('default');
+        this.sortSource.next('login');
     }
   }
 

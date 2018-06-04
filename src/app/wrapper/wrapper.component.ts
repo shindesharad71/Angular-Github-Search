@@ -8,12 +8,18 @@ import { ApiService } from '../api.service';
 })
 export class WrapperComponent implements OnInit {
 
-  constructor(private api: ApiService) {}
+  sortEx = '';
+
+  constructor(private api: ApiService) { }
 
   ngOnInit() {}
 
   search(term) {
     this.api.searchUsers(term);
+  }
+
+  selectBox(sortVal) {
+    this.api.selectInputData(sortVal);
   }
 
 }
