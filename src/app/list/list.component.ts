@@ -15,6 +15,9 @@ export class ListComponent implements OnInit {
   loading = false;
   query = '';
 
+  p: number = 1;
+  collection: any[] = this.users;
+
   constructor(private api: ApiService, private http: HttpClient) {
     this.api.currentMessage.subscribe(message => this.users = message);
     this.api.sortMessage.subscribe(message => this.query = message);
