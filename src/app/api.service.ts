@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -32,19 +33,20 @@ export class ApiService {
     switch (input) {
       case 'nameaz':
         console.log('nameaz');
-        this.sortSource.next('login : true');
+        this.sortSource.next('user.login : true : true');
         break;
       case 'nameza':
         console.log('nameza');
-        this.sortSource.next('login : false');
+        this.sortSource.next('user.login : false : true');
         break;
       case 'rankup':
         console.log('rankup');
-        this.sortSource.next('score : true');
+
+        this.sortSource.next('user.id : true : true');
         break;
       case 'rankdown':
         console.log('rankdown');
-        this.sortSource.next('score : false');
+        this.sortSource.next('user.id : false: true');
         break;
       default:
         console.log('default');
