@@ -18,12 +18,10 @@
           </div>
         </div>
       </div>
-      <div [attr.id]="user.login" *ngIf="repos">
+      <div [attr.id]="user.login" *ngIf="repos && show == user.login">
             <ul>
               <li class="repolist" *ngFor="let repo of repos">
-                <div>
                   <h4><strong>{{repo.name}}</strong> => {{repo.language}}</h4>
-                </div>
               </li>
             </ul>
         </div>
