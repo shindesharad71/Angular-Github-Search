@@ -7,11 +7,11 @@
       </div>
       <div class="col-md-9">
         <h1>{{user.login}}</h1>
-        <h4>Profile  Url - {{user.html_url}}</h4>
+        <h4><strong>Project URL</strong> - {{user.html_url}}</h4>
         <div class="row">
           <div class="col-md-6">
-            <p>ID - {{user.id}}</p>
-            <p>Score - {{user.score}}</p>
+            <p><strong>ID</strong> - {{user.id}}</p>
+            <p><strong>Score</strong> - {{user.score}}</p>
           </div>
           <div class="col-md-6">
             <button data-toggle="collapse" [attr.data-target]="'#'+user.login" class="btn outline-btn" (click)="userDetails(user.login)">Details</button>

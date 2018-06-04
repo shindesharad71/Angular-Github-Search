@@ -20,7 +20,6 @@ export class ApiService {
       this.http.get('https://api.github.com/search/users?q=' + term).subscribe(data => {
         this.users = data;
         this.messageSource.next(this.users);
-        console.log(this.users);
       });
     }
   }
