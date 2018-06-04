@@ -1,0 +1,9 @@
+.blue {
+  background-color: skyblue;
+  padding: 20px;
+}
+
+.transperent-btn {
+  background-color: #fff !important;
+  border: none !important;
+}

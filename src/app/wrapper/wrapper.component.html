@@ -1,0 +1,26 @@
+<div class="container-fluid">
+  <div class="row blue">
+      <div class="col-md-6 text-right">
+          <form class="navbar-form">
+            <div class="input-group">
+              <select class="form-control input-lg">
+                <option>Sort By Name (A-Z)</option>
+                <option>Sort By Name (Z-A)</option>
+              </select>
+            </div>
+          </form>
+        </div>
+    <div class="col-md-6">
+      <form class="navbar-form">
+        <div class="input-group">
+          <input type="text" class="form-control input-lg" name="term" (input)="search($event.target.value)" placeholder="Search">
+          <div class="input-group-btn">
+            <a class="btn btn-default btn-lg transperent-btn">
+              <i class="glyphicon glyphicon-search"></i>
+            </a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
