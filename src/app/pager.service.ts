@@ -11,8 +11,6 @@ export class PagerService {
         // calculate total pages
         const totalPages = Math.ceil(totalItems / pageSize);
 
-        console.log(totalItems);
-
         // ensure current page isn't out of range
         if (currentPage < 1) {
             currentPage = 1;

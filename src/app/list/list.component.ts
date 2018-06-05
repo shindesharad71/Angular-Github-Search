@@ -23,11 +23,28 @@ export class ListComponent implements OnInit {
   constructor(private api: ApiService, private http: HttpClient, private pagerService: PagerService) {
     this.api.currentMessage.subscribe(message => this.users = message);
     this.api.sortMessage.subscribe(message => this.query = message);
+
+    // initialize to page 1
+    this.setPage(1);
   }
+
+  // pager object
+  pager: any = {};
+
+  // paged items
+  pagedItems: any[];
 
   ngOnInit() {
     this.users = this.api.users;
   }
+
+  setPage(page: number) {
+    // get pager object from service
+    this.pager = this.pagerService.getPager(this.users.length, page);
+
+    // get current page of items
+    this.pagedItems = this.users.slice(this.pager.startIndex, this.pager.endIndex + 1);
+}
 
   getUserdata() {
     this.users = this.api.users;
