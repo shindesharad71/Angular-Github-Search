@@ -2,6 +2,8 @@ import { Component, OnInit, OnChanges } from '@angular/core';
 import { ApiService } from '../api.service';
 import { HttpClient } from '@angular/common/http';
 
+import { PagerService } from '../pager.service';
+
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
@@ -18,7 +20,7 @@ export class ListComponent implements OnInit {
   p: number = 1;
   collection: any[] = this.users;
 
-  constructor(private api: ApiService, private http: HttpClient) {
+  constructor(private api: ApiService, private http: HttpClient, private pagerService: PagerService) {
     this.api.currentMessage.subscribe(message => this.users = message);
     this.api.sortMessage.subscribe(message => this.query = message);
   }
