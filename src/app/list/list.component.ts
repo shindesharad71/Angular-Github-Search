@@ -11,14 +11,11 @@ import { PagerService } from '../pager.service';
 })
 export class ListComponent implements OnInit {
 
-  users: any = [];
+  users: any;
   repos: any;
   show: string;
   loading = false;
   query = '';
-
-  p: number = 1;
-  collection: any[] = this.users;
 
   constructor(private api: ApiService, private http: HttpClient, private pagerService: PagerService) {
     this.api.currentMessage.subscribe(message => this.users = message);
@@ -44,7 +41,7 @@ export class ListComponent implements OnInit {
 
     // get current page of items
     this.pagedItems = this.users.slice(this.pager.startIndex, this.pager.endIndex + 1);
-}
+  }
 
   getUserdata() {
     this.users = this.api.users;

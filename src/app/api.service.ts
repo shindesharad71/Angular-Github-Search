@@ -12,7 +12,7 @@ export class ApiService {
   users: any;
   selectInput: any;
 
-  private messageSource = new BehaviorSubject('default message');
+  private messageSource = new BehaviorSubject('initial');
   currentMessage = this.messageSource.asObservable();
 
   private sortSource = new BehaviorSubject('login');
@@ -24,7 +24,7 @@ export class ApiService {
     if (term.length > 3) {
       this.http.get('https://api.github.com/search/users?q=' + term).subscribe(data => {
         this.users = data;
-        this.messageSource.next(this.users);
+        this.messageSource.next(this.users.items);
       });
     }
   }

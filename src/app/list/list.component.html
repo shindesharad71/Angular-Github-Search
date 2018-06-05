@@ -1,6 +1,5 @@
 <div class="container topspace" *ngIf="users">
-  <p class="text-center">Total Count - {{users.total_count}}</p>
-  <div class="col-md-offset-1 col-md-10 bottom-margin" *ngFor="let user of users.items | orderBy: query">
+  <div class="col-md-offset-1 col-md-10 bottom-margin" *ngFor="let user of users | orderBy: query">
     <div class="row card">
       <div class="col-md-3">
         <img [src]="user.avatar_url" class="img-responsive img-circle" width="150" height="150">
@@ -33,7 +32,7 @@
 <!-- <pagination-controls class="text-center" (pageChange)="p = $event" *ngIf="users"></pagination-controls> -->
 
 <!-- pager -->
-<ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+<ul *ngIf="pager.pages && pager.pages.length && users" class="pagination">
   <li [ngClass]="{disabled:pager.currentPage === 1}">
       <a (click)="setPage(1)">First</a>
   </li>
