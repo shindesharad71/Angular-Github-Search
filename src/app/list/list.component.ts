@@ -11,7 +11,7 @@ import { PagerService } from '../pager.service';
 })
 export class ListComponent implements OnInit {
 
-  users: any;
+  users: any = [];
   repos: any;
   show: string;
   loading = false;
